@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce85yggih16a5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w3wsm"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dri70"]
+size = Vector3(60, 2, 60)
+
+[node name="Main" type="Node"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00195313, 0, -6.10352e-05)
+shape = SubResource("BoxShape3D_w3wsm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_dri70")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.236431, 0.971648, 0, -0.971648, -0.236431, 0, 13.9331, 0)
+shadow_enabled = true
