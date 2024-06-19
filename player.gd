@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody3D
 
+signal hit
+
 # How fast the player moves in meters per second.
 @export var speed = 14
 # The downward acceleration when in the air, in meters per second squared.
@@ -16,7 +18,7 @@ var target_velocity = Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	
-	print("Move!!!", velocity)
+	#print("Move!!!", velocity)
 	
 	# We create a local variable to store the input direction.
 	var direction = Vector3.ZERO
@@ -45,16 +47,10 @@ func _physics_process(delta: float) -> void:
 	# Vertical Velocity
 	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
 		target_velocity.y = target_velocity.y - (fall_acceleration * delta)
-
-	# Moving the Character
-	velocity = target_velocity
 	
 	# Jumping.
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
-		
-	print("Move!!!", velocity)
-	move_and_slide()
 
 	# Iterate through all collisions that occurred this frame
 	for index in range(get_slide_collision_count()):
@@ -69,9 +65,24 @@ func _physics_process(delta: float) -> void:
 		if collision.get_collider().is_in_group("mob"):
 			var mob = collision.get_collider()
 			# we check that we are hitting it from above.
-			if Vector3.UP.dot(collision.get_normal()) > 0.1:
+			if Vector3.UP.dot(collision.get_normal()) > 0.5:
 				# If so, we squash it and bounce.
 				mob.squash()
 				target_velocity.y = bounce_impulse
 				# Prevent further duplicate calls.
 				break
+		
+	# Moving the Character
+	velocity = target_velocity
+	
+	print("Move!!!", velocity)
+	move_and_slide()
+	
+
+func die() -> void:
+	hit.emit()
+	queue_free() # Destory player node
+
+func _on_mob_detector_body_entered(body: Node3D) -> void:
+	print("player hit enemy!")
+	die()
