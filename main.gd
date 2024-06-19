@@ -12,8 +12,6 @@ func _ready() -> void:
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
-	# We connect the mob to the score label to update the score upon squashing one.
-	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
 
 	# Choose a random location on the SpawnPath.
 	# We store the reference to the SpawnLocation node.
@@ -26,6 +24,9 @@ func _on_mob_timer_timeout() -> void:
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	
+	# We connect the mob to the score label to update the score upon squashing one.
+	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
 
 
 func _on_player_hit() -> void:
