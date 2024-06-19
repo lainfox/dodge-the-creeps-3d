@@ -8,6 +8,7 @@ margin = 0.0
 radius = 1.02343
 
 [node name="Player" type="CharacterBody3D"]
+collision_mask = 6
 script = ExtResource("1_2rbfq")
 
 [node name="Pivot" type="Node3D" parent="."]
