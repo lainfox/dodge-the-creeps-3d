@@ -34,7 +34,7 @@ script = ExtResource("1_y8rc6")
 mob_scene = ExtResource("2_jfht1")
 
 [node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
 collision_layer = 4
 collision_mask = 0
 
@@ -50,6 +50,7 @@ transform = Transform3D(1, 0, 0, 0, -0.236431, 0.971648, 0, -0.971648, -0.236431
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_ewq42")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
 [node name="CameraPivot" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.86381, 0)

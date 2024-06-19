@@ -39,6 +39,9 @@ func _physics_process(delta: float) -> void:
 		direction = direction.normalized()
 		# Setting the basis property will affect the rotation of the node.
 		$Pivot.basis = Basis.looking_at(direction)
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
 
 	# Ground Velocity
 	target_velocity.x = direction.x * speed
@@ -65,7 +68,7 @@ func _physics_process(delta: float) -> void:
 		if collision.get_collider().is_in_group("mob"):
 			var mob = collision.get_collider()
 			# we check that we are hitting it from above.
-			if Vector3.UP.dot(collision.get_normal()) > 0.5:
+			if Vector3.UP.dot(collision.get_normal()) > 0.3:
 				# If so, we squash it and bounce.
 				mob.squash()
 				target_velocity.y = bounce_impulse
@@ -77,6 +80,8 @@ func _physics_process(delta: float) -> void:
 	
 	print("Move!!!", velocity)
 	move_and_slide()
+	
+	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 	
 
 func die() -> void:
