@@ -3,9 +3,17 @@ extends Node
 @export var mob_scene: PackedScene
 
 
+func _ready() -> void:
+	$UserInterface/Retry.hide()
+	
+	
+
+
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
+	# We connect the mob to the score label to update the score upon squashing one.
+	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
 
 	# Choose a random location on the SpawnPath.
 	# We store the reference to the SpawnLocation node.
@@ -22,3 +30,10 @@ func _on_mob_timer_timeout() -> void:
 
 func _on_player_hit() -> void:
 	$MobTimer.stop()
+	$UserInterface/Retry.show()
+	
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
+		# This restarts the current scene.
+		get_tree().reload_current_scene()
